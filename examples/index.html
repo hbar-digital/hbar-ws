@@ -1,0 +1,18 @@
+<html>
+<head>
+  <title>Example</title>
+</head>
+<body>
+<script src="../dist/SocketClient.min.js"></script>
+<script>
+var socket = new SocketClient('http://af75febf.ngrok.io/');
+
+socket.on('chat', function(message) {
+  console.log("chat!", message);
+
+  socket.emit('chat', 'from client!');
+});
+
+</script>
+</body>
+</html>
