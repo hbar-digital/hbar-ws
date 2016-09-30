@@ -1,7 +1,10 @@
+const EventEmitter = require('events');
+
 module.exports = class Socket extends EventEmitter {
   constructor(socket) {
     super();
     this.dispatchEvent = this.emit;
+    this.emit = this._emit;
 
     this._socket = socket;
     this.id = socket.id;
@@ -20,7 +23,7 @@ module.exports = class Socket extends EventEmitter {
     this.rooms = this.rooms.filter(r => r != room);
   }
 
-  emit(topic, data) {
+  _emit(topic, data) {
     this._socket.write(JSON.stringify({ topic : topic, data : data }));
   }
 

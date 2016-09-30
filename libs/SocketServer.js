@@ -8,6 +8,7 @@ module.exports = class SocketServer extends EventEmitter {
   constructor(http) {
     super();
     this.dispatchEvent = this.emit;
+    this.emit = this._emit;
 
     this.sockets = [];
 
@@ -24,6 +25,10 @@ module.exports = class SocketServer extends EventEmitter {
     this.sockets.push(socket);
 
     this.dispatchEvent('connection', socket);
+  }
+
+  _emit(topic, data) {
+    this.sockets.forEach(socket => socket.emit(topic, data));
   }
 
   in(room) {
