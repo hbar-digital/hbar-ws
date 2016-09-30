@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/hbar-digital/hbar-ws/issues"
   },
-  "homepage": "https://github.com/hbar-digital/hbar-ws#readme"
+  "homepage": "https://github.com/hbar-digital/hbar-ws#readme",
+  "dependencies": {
+    "sockjs": "^0.3.18"
+  }
 }
