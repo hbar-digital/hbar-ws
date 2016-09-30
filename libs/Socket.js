@@ -30,7 +30,7 @@ module.exports = class Socket extends EventEmitter {
   _onMessage(rawData) {
     let data = JSON.parse(rawData);
 
-    this.dispatchEvent(data.topic, data.message);
+    this.dispatchEvent(data.topic, data.data);
   }
 
   _onClose() {
