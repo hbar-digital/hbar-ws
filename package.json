@@ -1,0 +1,25 @@
+{
+  "name": "hbar-ws",
+  "version": "1.0.0",
+  "description": "SockJS Abstraction",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hbar-digital/hbar-ws.git"
+  },
+  "keywords": [
+    "websockets",
+    "sockets",
+    "ws",
+    "sockjs"
+  ],
+  "author": "hbar digital",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hbar-digital/hbar-ws/issues"
+  },
+  "homepage": "https://github.com/hbar-digital/hbar-ws#readme"
+}
