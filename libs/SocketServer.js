@@ -1,7 +1,7 @@
 const sockjs  = require('sockjs');
 const EventEmitter = require('events');
 
-module.exports = class SocketServer extends EventEmitter {
+class SocketServer extends EventEmitter {
   constructor(http) {
     super();
     this.dispatchEvent = this.emit;
@@ -90,3 +90,5 @@ class Filter {
     ).forEach(socket => socket.emit(topic, data));
   }
 }
+
+module.exports = SocketServer;
