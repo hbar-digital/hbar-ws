@@ -1,6 +1,6 @@
 {
   "name": "hbar-ws",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "SockJS Abstraction",
   "main": "index.js",
   "scripts": {
@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/hbar-digital/hbar-ws#readme",
   "dependencies": {
-    "sockjs": "^0.3.18"
+    "sockjs": "^0.3.18",
+    "sockjs-client": "^1.1.1"
   }
 }
