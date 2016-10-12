@@ -1,18 +1,22 @@
-var express = require('express')
+var express = require('express');
+var router  = express.Router();
 var http    = require('http');
 
-var SocketServer = require('hbar-ws').SocketServer;
+// var SocketServer = require('hbar-ws').SocketServer;
+var SocketServer = require('../libs/SocketServer');
 
 
 var app = express();
 var server = http.createServer(app);
 
-app.use(express.static('/'));
+
+
+app.use(express.static(__dirname + '/'));
 
 server.listen(9001);
 
 
-var wss = new SocketServer(server, 'api');
+var wss = new SocketServer(server, '/api');
 
 wss.on('connection', function(socket) {
   console.log('connection opened')

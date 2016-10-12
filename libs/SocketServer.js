@@ -12,9 +12,9 @@ module.exports = class SocketServer extends EventEmitter {
 
     this.sockets = [];
 
-    this._wss = sockjs.createServer({sockjs_url: 'http://cdn.sockjs.org/sockjs-0.3.min.js'});
+    this._wss = sockjs.createServer({sockjs_url: 'https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.1/sockjs.min.js'});
 
-    this._wss.installHandlers(http, prefix);
+    this._wss.installHandlers(http, {prefix : prefix});
 
     this._wss.on('connection', this.onConnection.bind(this));
   }

@@ -3,9 +3,9 @@
   <title>Example</title>
 </head>
 <body>
-<script src="../dist/SocketClient.min.js"></script>
+<script src="/node_modules/hbar-ws/dist/SocketClient.min.js"></script>
 <script>
-var socket = new SocketClient('http://6fd00dd5.ngrok.io/');
+var socket = new SocketClient('http://localhost:9001/api');
 
 socket.on('chat', function(message) {
   console.log("chat!", message);
