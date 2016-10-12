@@ -1,5 +1,5 @@
 # hbar-ws
 
-`cd examples`
-`npm install`
-`node server`
+```cd examples```
+```npm install```
+```node server```
