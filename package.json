@@ -1,16 +1,13 @@
 {
-  "name": "hbar-ws",
-  "version": "1.0.18",
-  "description": "SockJS Abstraction",
+  "name": "hbar-ws-server",
+  "version": "1.0.20",
+  "description": "SockJS Server Abstraction",
   "main": "index.js",
   "scripts": {
-    "prebuild": "babel libs/SocketClient.js --presets es2015 > dist/SocketClient.es5.js",
-    "build": "browserify dist/SocketClient.es5.js > dist/SocketClient.js --standalone SocketClient",
-    "postbuild": "uglifyjs dist/SocketClient.js -m -c > dist/SocketClient.min.js && rm dist/SocketClient.es5.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hbar-digital/hbar-ws.git"
+    "url": "git+https://github.com/hbar-digital/hbar-ws-server.git"
   },
   "keywords": [
     "websockets",
@@ -21,18 +18,13 @@
   "author": "hbar digital",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/hbar-digital/hbar-ws/issues"
+    "url": "https://github.com/hbar-digital/hbar-ws-server/issues"
   },
-  "homepage": "https://github.com/hbar-digital/hbar-ws#readme",
+  "homepage": "https://github.com/hbar-digital/hbar-ws-server#readme",
   "dependencies": {
     "events": "^1.1.1",
-    "sockjs": "^0.3.18",
-    "sockjs-client": "^1.1.1"
+    "sockjs": "^0.3.18"
   },
   "devDependencies": {
-    "babel-cli": "^6.16.0",
-    "babel-preset-es2015": "^6.16.0",
-    "browserify": "^13.1.0",
-    "uglify-js": "^2.7.3"
   }
 }

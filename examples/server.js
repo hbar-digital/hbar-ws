@@ -4,7 +4,7 @@ var http    = require('http');
 
 
 // var SocketServer = require('../libs/SocketServer');
-var SocketServer = require('hbar-ws').SocketServer;
+var SocketServer = require('hbar-ws-server');
 
 
 var app = express();
