@@ -3,4 +3,5 @@
 ```
 cd examples
 npm install
-node server```
+node server
+```
