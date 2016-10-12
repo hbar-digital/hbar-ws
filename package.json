@@ -1,10 +1,10 @@
 {
   "name": "hbar-ws",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "description": "SockJS Abstraction",
   "main": "index.js",
   "scripts": {
-    "prebuild" : "babel libs/SocketClient.js --presets es2015 > dist/SocketClient.es5.js",
+    "prebuild": "babel libs/SocketClient.js --presets es2015 > dist/SocketClient.es5.js",
     "build": "browserify dist/SocketClient.es5.js > dist/SocketClient.js --standalone SocketClient",
     "postbuild": "uglifyjs dist/SocketClient.js -m -c > dist/SocketClient.min.js && rm dist/SocketClient.es5.js"
   },
@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/hbar-digital/hbar-ws#readme",
   "dependencies": {
+    "events": "^1.1.1",
     "sockjs": "^0.3.18",
     "sockjs-client": "^1.1.1"
   },
