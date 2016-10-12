@@ -7,10 +7,12 @@ var SocketServer = require('hbar-ws').SocketServer;
 var app = express();
 var server = http.createServer(app);
 
+app.use(express.static('/'));
+
 server.listen(9001);
 
 
-var wss = new SocketServer(server);
+var wss = new SocketServer(server, 'api');
 
 wss.on('connection', function(socket) {
   console.log('connection opened')
