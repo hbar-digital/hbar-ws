@@ -16,10 +16,10 @@ module.exports = class SocketServer extends EventEmitter {
 
     this._wss.installHandlers(http, {prefix : prefix});
 
-    this._wss.on('connection', this.onConnection.bind(this));
+    this._wss.on('connection', this._onConnection.bind(this));
   }
 
-  onConnection(rawSocket) {
+  _onConnection(rawSocket) {
     let socket = new Socket(rawSocket);
 
     this.sockets.push(socket);

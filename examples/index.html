@@ -5,13 +5,18 @@
 <body>
 <script src="/node_modules/hbar-ws/dist/SocketClient.min.js"></script>
 <script>
-var socket = new SocketClient('http://localhost:9001/api');
+var socket = new SocketClient('/api');
 
 socket.on('chat', function(message) {
   console.log("chat!", message);
 
   socket.emit('chat', 'from client!');
 });
+
+socket.onclose = function() {
+  console.log("closed!");
+};
+
 
 </script>
 </body>
