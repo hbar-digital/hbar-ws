@@ -6,6 +6,7 @@ module.exports = class SocketClient extends EventEmitter {
     super();
     this.dispatchEvent = this.emit;
     this.emit = this._emit;
+
     this.keepAliveInterval = keepAliveInterval || 25000;
     this.timeoutDelay = timeoutDelay || 5000;
 
@@ -30,7 +31,7 @@ module.exports = class SocketClient extends EventEmitter {
     clearInterval(this.reconnectInterval);
     if(this.onclose) this.onclose();
 
-    if(reconnect) this._reconnect();
+    this._reconnect();
   }
 
   _onMessage(message) {
@@ -49,10 +50,14 @@ module.exports = class SocketClient extends EventEmitter {
 
   _reconnect() {
     console.log('reconnecting');
+
+    //TODO:
+    // add reconnect logic
+    // ie. call _createConnection on an interval
   }
 
   _ping() {
     this.emit('ping');
-    this.disconnectTimeout = setTimeout(this._onClose.bind(this, true), this.timeoutDelay);
+    this.disconnectTimeout = setTimeout(this._onClose.bind(this), this.timeoutDelay);
   }
 }

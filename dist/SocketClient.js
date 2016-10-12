@@ -22,6 +22,7 @@ module.exports = function (_EventEmitter) {
 
     _this.dispatchEvent = _this.emit;
     _this.emit = _this._emit;
+
     _this.keepAliveInterval = keepAliveInterval || 25000;
     _this.timeoutDelay = timeoutDelay || 5000;
 
@@ -50,7 +51,7 @@ module.exports = function (_EventEmitter) {
       clearInterval(this.reconnectInterval);
       if (this.onclose) this.onclose();
 
-      if (reconnect) this._reconnect();
+      this._reconnect();
     }
   }, {
     key: '_onMessage',
@@ -72,12 +73,16 @@ module.exports = function (_EventEmitter) {
     key: '_reconnect',
     value: function _reconnect() {
       console.log('reconnecting');
+
+      //TODO:
+      // add reconnect logic
+      // ie. call _createConnection on an interval
     }
   }, {
     key: '_ping',
     value: function _ping() {
       this.emit('ping');
-      this.disconnectTimeout = setTimeout(this._onClose.bind(this, true), this.timeoutDelay);
+      this.disconnectTimeout = setTimeout(this._onClose.bind(this), this.timeoutDelay);
     }
   }]);
 
