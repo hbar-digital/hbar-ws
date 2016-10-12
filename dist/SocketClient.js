@@ -22,8 +22,8 @@ module.exports = function (_EventEmitter) {
 
     _this.dispatchEvent = _this.emit;
     _this.emit = _this._emit;
-    _this.keepAliveInterval = keepAliveInterval || 5000;
-    _this.timeoutDelay = timeoutDelay || 4000;
+    _this.keepAliveInterval = keepAliveInterval || 25000;
+    _this.timeoutDelay = timeoutDelay || 5000;
 
     _this._createConnection(address);
     return _this;
@@ -32,24 +32,25 @@ module.exports = function (_EventEmitter) {
   _createClass(SocketClient, [{
     key: '_createConnection',
     value: function _createConnection(address) {
-      this.client = new SockJS(address);
+      this.socket = new SockJS(address);
 
-      this.client.onopen = this._onOpen;
-      this.client.onclose = this._onClose;
-      this.client.onmessage = this._onMessage;
+      this.socket.onopen = this._onOpen.bind(this);
+      this.socket.onclose = this._onClose.bind(this);
+      this.socket.onmessage = this._onMessage.bind(this);
     }
   }, {
     key: '_onOpen',
     value: function _onOpen() {
-      console.log('onOpen');
-      this.reconnectInterval = setInterval(this._ping, this.keepAliveInterval);
+      this.reconnectInterval = setInterval(this._ping.bind(this), this.keepAliveInterval);
       if (this.onopen) this.onopen();
     }
   }, {
     key: '_onClose',
-    value: function _onClose() {
+    value: function _onClose(reconnect) {
       clearInterval(this.reconnectInterval);
       if (this.onclose) this.onclose();
+
+      if (reconnect) this._reconnect();
     }
   }, {
     key: '_onMessage',
@@ -57,7 +58,6 @@ module.exports = function (_EventEmitter) {
       var data = JSON.parse(message.data);
 
       if (data.topic == 'pong') {
-        console.log('pong');
         clearTimeout(this.disconnectTimeout);
       }
 
@@ -66,14 +66,18 @@ module.exports = function (_EventEmitter) {
   }, {
     key: '_emit',
     value: function _emit(topic, data) {
-      this.client.send(JSON.stringify({ topic: topic, data: data }));
+      this.socket.send(JSON.stringify({ topic: topic, data: data }));
+    }
+  }, {
+    key: '_reconnect',
+    value: function _reconnect() {
+      console.log('reconnecting');
     }
   }, {
     key: '_ping',
     value: function _ping() {
-      console.log('ping');
       this.emit('ping');
-      this.disconnectTimeout = setTimeout(this._onClose, this.timeoutDelay);
+      this.disconnectTimeout = setTimeout(this._onClose.bind(this, true), this.timeoutDelay);
     }
   }]);
 
