@@ -5,7 +5,10 @@
 <body>
 <script src="/node_modules/hbar-ws/dist/SocketClient.js"></script>
 <script>
-var socket = new SocketClient('/api', 2000, 1000);
+var socket = new SocketClient('/api', {
+  keepAliveInterval: 2000,
+  timeoutDelay: 1000
+});
 
 socket.on('chat', function(message) {
   console.log("chat!", message);
@@ -15,6 +18,10 @@ socket.on('chat', function(message) {
 
 socket.onclose = function() {
   console.log("closed!");
+};
+
+socket.onerror = function(error) {
+  console.log("error!", error);
 };
 
 

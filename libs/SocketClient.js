@@ -2,23 +2,25 @@ const SockJS  = require('sockjs-client');
 const EventEmitter = require('events');
 
 module.exports = class SocketClient extends EventEmitter {
-  constructor(address, keepAliveInterval, timeoutDelay) {
+  constructor(address, options) {
     super();
     this.dispatchEvent = this.emit;
     this.emit = this._emit;
 
-    this.keepAliveInterval = keepAliveInterval || 25000;
-    this.timeoutDelay = timeoutDelay || 5000;
+    this.keepAliveInterval = options.keepAliveInterval || 25000;
+    this.timeoutDelay = options.timeoutDelay || 5000;
+    this.useNative = options.useNative || false;
 
     this._createConnection(address);
   }
 
   _createConnection(address) {
-    this.socket = new SockJS(address);
+    this.socket = this.useNative ? new WebSocket(address) : new SockJS(address);
 
     this.socket.onopen = this._onOpen.bind(this);
     this.socket.onclose = this._onClose.bind(this);
     this.socket.onmessage = this._onMessage.bind(this);
+    this.socket.onerror = this._onError.bind(this);
   }
 
 
@@ -42,6 +44,10 @@ module.exports = class SocketClient extends EventEmitter {
     }
 
     this.dispatchEvent(data.topic, data.data);
+  }
+
+  _onError(error) {
+    if(this.onerror) this.onerror(error);
   }
 
   _emit(topic, data) {

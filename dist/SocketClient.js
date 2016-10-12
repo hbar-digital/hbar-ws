@@ -15,7 +15,7 @@ var EventEmitter = require('events');
 module.exports = function (_EventEmitter) {
   _inherits(SocketClient, _EventEmitter);
 
-  function SocketClient(address, keepAliveInterval, timeoutDelay) {
+  function SocketClient(address, options) {
     _classCallCheck(this, SocketClient);
 
     var _this = _possibleConstructorReturn(this, (SocketClient.__proto__ || Object.getPrototypeOf(SocketClient)).call(this));
@@ -23,8 +23,9 @@ module.exports = function (_EventEmitter) {
     _this.dispatchEvent = _this.emit;
     _this.emit = _this._emit;
 
-    _this.keepAliveInterval = keepAliveInterval || 25000;
-    _this.timeoutDelay = timeoutDelay || 5000;
+    _this.keepAliveInterval = options.keepAliveInterval || 25000;
+    _this.timeoutDelay = options.timeoutDelay || 5000;
+    _this.useNative = options.useNative || false;
 
     _this._createConnection(address);
     return _this;
@@ -33,11 +34,12 @@ module.exports = function (_EventEmitter) {
   _createClass(SocketClient, [{
     key: '_createConnection',
     value: function _createConnection(address) {
-      this.socket = new SockJS(address);
+      this.socket = this.useNative ? new WebSocket(address) : new SockJS(address);
 
       this.socket.onopen = this._onOpen.bind(this);
       this.socket.onclose = this._onClose.bind(this);
       this.socket.onmessage = this._onMessage.bind(this);
+      this.socket.onerror = this._onError.bind(this);
     }
   }, {
     key: '_onOpen',
@@ -63,6 +65,11 @@ module.exports = function (_EventEmitter) {
       }
 
       this.dispatchEvent(data.topic, data.data);
+    }
+  }, {
+    key: '_onError',
+    value: function _onError(error) {
+      if (this.onerror) this.onerror(error);
     }
   }, {
     key: '_emit',
