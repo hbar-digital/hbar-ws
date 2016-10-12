@@ -15,36 +15,66 @@ var EventEmitter = require('events');
 module.exports = function (_EventEmitter) {
   _inherits(SocketClient, _EventEmitter);
 
-  function SocketClient(address) {
+  function SocketClient(address, keepAliveInterval, timeoutDelay) {
     _classCallCheck(this, SocketClient);
 
     var _this = _possibleConstructorReturn(this, (SocketClient.__proto__ || Object.getPrototypeOf(SocketClient)).call(this));
 
     _this.dispatchEvent = _this.emit;
     _this.emit = _this._emit;
+    _this.keepAliveInterval = keepAliveInterval || 5000;
+    _this.timeoutDelay = timeoutDelay || 4000;
 
-    _this.client = new SockJS(address);
-
-    _this.client.onopen = function () {
-      if (_this.onopen) _this.onopen();
-    };
-
-    _this.client.onmessage = function (message) {
-      var data = JSON.parse(message.data);
-
-      _this.dispatchEvent(data.topic, data.data);
-    };
-
-    _this.client.onclose = function () {
-      if (_this.onclose) _this.onclose();
-    };
+    _this._createConnection();
     return _this;
   }
 
   _createClass(SocketClient, [{
+    key: '_createConnection',
+    value: function _createConnection() {
+      console.log('WTF');
+      this.client = new SockJS(address);
+
+      this.client.onopen = this._onOpen;
+      this.client.onclose = this._onClose;
+      this.client.onmessage = this._onMessage;
+    }
+  }, {
+    key: '_onOpen',
+    value: function _onOpen() {
+      console.log('onOpen');
+      this.reconnectInterval = setInterval(this._ping, this.keepAliveInterval);
+      if (this.onopen) this.onopen();
+    }
+  }, {
+    key: '_onClose',
+    value: function _onClose() {
+      clearInterval(this.reconnectInterval);
+      if (this.onclose) this.onclose();
+    }
+  }, {
+    key: '_onMessage',
+    value: function _onMessage(message) {
+      var data = JSON.parse(message.data);
+
+      if (data.topic == 'pong') {
+        console.log('pong');
+        clearTimeout(this.disconnectTimeout);
+      }
+
+      this.dispatchEvent(data.topic, data.data);
+    }
+  }, {
     key: '_emit',
     value: function _emit(topic, data) {
       this.client.send(JSON.stringify({ topic: topic, data: data }));
+    }
+  }, {
+    key: '_ping',
+    value: function _ping() {
+      console.log('ping');
+      this.emit('ping');
+      this.disconnectTimeout = setTimeout(this._onClose, this.timeoutDelay);
     }
   }]);
 

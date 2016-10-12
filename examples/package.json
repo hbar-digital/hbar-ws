@@ -11,6 +11,6 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.14.0",
-    "hbar-ws": "^1.0.9"
+    "hbar-ws": "^1.0.11"
   }
 }
