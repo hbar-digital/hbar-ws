@@ -25,14 +25,13 @@ module.exports = function (_EventEmitter) {
     _this.keepAliveInterval = keepAliveInterval || 5000;
     _this.timeoutDelay = timeoutDelay || 4000;
 
-    _this._createConnection();
+    _this._createConnection(address);
     return _this;
   }
 
   _createClass(SocketClient, [{
     key: '_createConnection',
-    value: function _createConnection() {
-      console.log('WTF');
+    value: function _createConnection(address) {
       this.client = new SockJS(address);
 
       this.client.onopen = this._onOpen;

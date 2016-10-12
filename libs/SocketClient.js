@@ -9,10 +9,10 @@ module.exports = class SocketClient extends EventEmitter {
     this.keepAliveInterval = keepAliveInterval || 5000;
     this.timeoutDelay = timeoutDelay || 4000;
 
-    this._createConnection();
+    this._createConnection(address);
   }
 
-  _createConnection() { console.log('WTF');
+  _createConnection(address) {
     this.client = new SockJS(address);
 
     this.client.onopen = this._onOpen;
