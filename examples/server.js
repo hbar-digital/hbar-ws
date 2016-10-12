@@ -3,8 +3,8 @@ var router  = express.Router();
 var http    = require('http');
 
 
-var SocketServer = require('../libs/SocketServer');
-// var SocketServer = require('hbar-ws').SocketServer;
+// var SocketServer = require('../libs/SocketServer');
+var SocketServer = require('hbar-ws').SocketServer;
 
 
 var app = express();
