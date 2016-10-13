@@ -12,7 +12,7 @@ module.exports = class Socket extends EventEmitter {
     this._socket.on('data', this._onMessage.bind(this));
     this._socket.on('close', this._onClose.bind(this));
 
-    this.rooms = [ this.id ];
+    this.rooms = [ this.sessionId ];
   }
 
   join(room) {

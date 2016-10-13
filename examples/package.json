@@ -12,6 +12,6 @@
   "dependencies": {
     "express": "^4.14.0",
     "hbar-ws-client": "^1.0.0",
-    "hbar-ws-server": "^1.0.20"
+    "hbar-ws-server": "^1.0.21"
   }
 }

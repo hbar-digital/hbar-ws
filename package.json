@@ -1,6 +1,6 @@
 {
   "name": "hbar-ws-server",
-  "version": "1.0.21",
+  "version": "1.0.22",
   "description": "SockJS Server Abstraction",
   "main": "index.js",
   "scripts": {
