@@ -7,7 +7,7 @@ module.exports = class Socket extends EventEmitter {
     this.emit = this._emit;
 
     this._socket = socket;
-    this.id = socket.id;
+    this.sessionId = this._getSessionId();
 
     this._socket.on('data', this._onMessage.bind(this));
     this._socket.on('close', this._onClose.bind(this));
@@ -21,6 +21,11 @@ module.exports = class Socket extends EventEmitter {
 
   leave(room) {
     this.rooms = this.rooms.filter(r => r != room);
+  }
+
+  _getSessionId() {
+    let parts = this._socket.url.split('/');
+    return parts[parts.length - 2];
   }
 
   _emit(topic, data) {
